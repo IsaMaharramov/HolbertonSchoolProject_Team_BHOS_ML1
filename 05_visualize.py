@@ -9,7 +9,7 @@ def visualize_results(model_path, data_dir, image_index=0):
     
     # Load the trained model
     model = SeismicFirstBreakNet().to(device)
-    model.load_state_dict(torch.load(model_path, map_location=device))
+    model.load_state_dict(torch.load(model_path, map_location=device, weights_only=True))
     model.eval()
 
     # Grab the first available test image and its labels
@@ -37,7 +37,7 @@ def visualize_results(model_path, data_dir, image_index=0):
     # Set up the plot for your presentation
     plt.figure(figsize=(12, 8))
     
-    # Plot the 2D seismic image in grayscale (matches Figure 3 exactly)
+    # Plot the 2D seismic image in grayscale
     plt.imshow(traces_np, aspect='auto', cmap='gray')
     
     # X-axis represents the individual traces
@@ -58,4 +58,5 @@ def visualize_results(model_path, data_dir, image_index=0):
     plt.show()
 
 if __name__ == "__main__":
-    visualize_results('first_break_picker.pth', './processed_data/Sudbury')
+    # Pointed to the newly fine-tuned weights!
+    visualize_results('first_break_picker_finetuned.pth', './processed_data/Sudbury')

@@ -22,14 +22,28 @@ def train_model():
         print("No processed training data found yet! Run 01_process_hdf5.py once downloads finish.")
         return
 
+    # Using batch_size=1 to avoid tensor shape mismatches from variable trace lengths
     train_loader = DataLoader(ConcatDataset(train_datasets), batch_size=1, shuffle=True)
-    # Initialize model, loss, and optimizer
+    
+    # Initialize model
     model = SeismicFirstBreakNet().to(device)
-    criterion = nn.L1Loss() # Mean Absolute Error (MAE) in milliseconds
-    optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3, weight_decay=1e-4)
+    
+    # --- FINE-TUNING SETUP ---
+    # Load the baseline weights to avoid losing previous progress
+    if os.path.exists("baseline_model.pth"):
+        print("Loading baseline weights from baseline_model.pth to fine-tune...")
+        model.load_state_dict(torch.load("baseline_model.pth", map_location=device, weights_only=True))
+    elif os.path.exists("first_break_picker.pth"):
+        print("Loading baseline weights from first_break_picker.pth to fine-tune...")
+        model.load_state_dict(torch.load("first_break_picker.pth", map_location=device, weights_only=True))
 
-    epochs = 15
-    print("Starting Training Loop...")
+    criterion = nn.L1Loss() # Mean Absolute Error (MAE) in milliseconds
+    
+    # Lower learning rate to take microscopic steps (1e-4 instead of 1e-3)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=1e-4, weight_decay=1e-4)
+
+    epochs = 20
+    print("Starting Fine-Tuning Loop...")
     
     for epoch in range(epochs):
         model.train()
@@ -50,9 +64,9 @@ def train_model():
         epoch_loss = running_loss / len(train_loader.dataset)
         print(f"Epoch [{epoch+1}/{epochs}] - Loss (MAE msec): {epoch_loss:.4f}")
 
-    # Save trained model weights
-    torch.save(model.state_dict(), "first_break_picker.pth")
-    print("Model training complete! Weights saved to first_break_picker.pth")
+    # Save fine-tuned model weights separately to protect the baseline
+    torch.save(model.state_dict(), "first_break_picker_finetuned.pth")
+    print("Model fine-tuning complete! Weights saved to first_break_picker_finetuned.pth")
 
 if __name__ == "__main__":
     train_model()
