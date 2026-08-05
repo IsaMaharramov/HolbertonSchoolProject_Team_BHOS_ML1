@@ -1,0 +1,21 @@
+# Python Environment
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Massive Datasets & Raw Files
+data/
+processed_data/
+*.hdf5
+*.xz
+*.npy
+
+# Model Weights (Heavy and overwrite frequently)
+*.pth
+!baseline_model.pth  # (Optional: Allows your specific baseline backup to upload)
+
+# IDE & OS Files
+.vscode/
+.DS_Store
+Thumbs.db
