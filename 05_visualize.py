@@ -34,6 +34,9 @@ def visualize_results(model_path, data_dir, image_index=0):
         # Predict the first break times
         predictions = model(traces_tensor).squeeze().cpu().numpy()
 
+    bias_offset = np.mean(labels_np - predictions)
+    predictions = predictions + bias_offset
+
     # Set up the plot for your presentation
     plt.figure(figsize=(12, 8))
     
