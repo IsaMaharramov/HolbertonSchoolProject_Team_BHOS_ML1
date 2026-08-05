@@ -12,7 +12,7 @@ processed_data/
 *.npy
 
 # Model Weights (Heavy and overwrite frequently)
-*.pth
+#*.pth
 !baseline_model.pth  # (Optional: Allows your specific baseline backup to upload)
 
 # IDE & OS Files
