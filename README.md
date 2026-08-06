@@ -26,6 +26,16 @@ The pipeline consists of an end-to-end data processing and model training archit
 *   `04_train.py`: Training loop leveraging CUDA-accelerated hardware with dynamic MAE loss tracking.
 *   `05_visualize.py`: Evaluates the model on test data and plots AI predictions directly against manual ground-truth labels using Matplotlib.
 
+
+## Download links
+
+The HDF5 files are hosted on AWS, and can be downloaded directly:
+ - [Brunswick](https://d3sakqnghgsk6x.cloudfront.net/Brunswick_3D/Brunswick_orig_1500ms_V2.hdf5.xz)
+ - [Halfmile Lake](https://d3sakqnghgsk6x.cloudfront.net/Halfmile_3D/Halfmile3D_add_geom_sorted.hdf5.xz)
+ - [Lalor](https://d3sakqnghgsk6x.cloudfront.net/Lalor_3D/Lalor_raw_z_1500ms_norp_geom_v3.hdf5.xz)
+ - [Sudbury](https://d3sakqnghgsk6x.cloudfront.net/Sudbury_3D/preprocessed_Sudbury3D.hdf.xz)
+
+
 ## How to Run
 1. Ensure raw datasets are placed in the `/data/` directory.
 2. Run data processing: `python 01_process_hdf5.py`
