@@ -49,8 +49,8 @@ def process_seismic_data(hdf5_path, output_dir):
 if __name__ == "__main__":
     # Map the raw extracted files from the data/ folder using exact filenames
     datasets = {
-       # "Brunswick": "data/Brunswick_orig_1500ms_V2.hdf5",
-      #  "Halfmile": "data/Halfmile3D_add_geom_sorted.hdf5",
+        "Brunswick": "data/Brunswick_orig_1500ms_V2.hdf5",
+        "Halfmile": "data/Halfmile3D_add_geom_sorted.hdf5",
         "Lalor": "data/Lalor_raw_z_1500ms_norp_geom_v3.hdf5",
         "Sudbury": "data/preprocessed_Sudbury3D.hdf"
     }
