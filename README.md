@@ -37,10 +37,73 @@ The HDF5 files are hosted on AWS, and can be downloaded directly:
 
 
 ## How to Run
+
+### Option 1: Interactive AI Wrapper Demo (Recommended)
+**Added by: Togrul-cmd**
+
+Launch the Gradio web interface for interactive model demonstration:
+
+1. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. **Run the demo app:**
+   ```bash
+   python demo_app.py
+   ```
+
+3. **Access the interface:**
+   - Open your browser to `http://127.0.0.1:7860`
+   - Upload your seismic traces (`.npy` file) and ground truth labels (`.npy` file)
+   - Click "Run Inference" to see AI predictions overlaid on the seismic data
+   - View performance metrics (MAE, RMSE, max error)
+
+**Features:**
+- 🎯 Real-time inference with trained model
+- 📊 Visual comparison of AI predictions vs manual labels
+- 📈 Automatic error metrics calculation
+- ⚙️ Optional bias correction toggle
+- 🖥️ Clean, professional web interface
+
+### Option 2: Training Pipeline (Original)
+**Developed by: Isa Maharramov**
+
 1. Ensure raw datasets are placed in the `/data/` directory.
 2. Run data processing: `python 01_process_hdf5.py`
 3. Train the network: `python 04_train.py`
 4. Visualize results: `python 05_visualize.py`
 
+## Project Structure
+```
+.
+├── demo_app.py                          # Gradio AI wrapper (Togrul-cmd)
+├── requirements.txt                     # Python dependencies
+├── model.py                             # Neural network architecture
+├── dataset.py                           # PyTorch dataset class
+├── 00_unzip.py                          # Data extraction
+├── 01_process_hdf5.py                   # HDF5 preprocessing
+├── 04_train.py                          # Training pipeline
+├── 05_visualize.py                      # Visualization script
+├── first_break_picker_finetuned.pth     # Trained model weights
+└── README.md                            # This file
+```
+
+## AI Wrapper Technical Details
+
+The Gradio interface (`demo_app.py`) provides:
+- **Model Loading:** Automatically loads the fine-tuned PyTorch model on startup
+- **Data Processing:** Handles transpose, normalization, and tensor conversion
+- **Inference:** GPU-accelerated prediction with automatic device detection
+- **Visualization:** Matplotlib-based overlay of predictions on seismic images
+- **Metrics:** MAE, RMSE, and max error computation
+- **User Experience:** Clean UI with instructions and model information
+
+**Input Requirements:**
+- Seismic traces: NumPy array of shape `(num_traces, time_samples)`
+- Labels: NumPy array of shape `(num_traces,)` with first break times
+
 ---
-*Author: Isa Maharramov*
+*Authors:*  
+*Core Model & Training Pipeline: Isa Maharramov*  
+*AI Wrapper & Demo Interface: Togrul-cmd*

@@ -1,0 +1,20 @@
+# Requirements for Automated Seismic First Break Detection
+# Author: Togrul-cmd (AI Wrapper), Isa Maharramov (Core Model)
+
+# Deep Learning Framework
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Data Processing
+numpy>=1.24.0
+h5py>=3.8.0
+
+# Visualization
+matplotlib>=3.7.0
+Pillow>=10.0.0
+
+# AI Wrapper Interface (Added by Togrul-cmd)
+gradio>=4.0.0
+
+# Optional: For CUDA support, install appropriate PyTorch version
+# Visit: https://pytorch.org/get-started/locally/
