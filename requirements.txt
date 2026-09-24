@@ -16,5 +16,5 @@ Pillow>=10.0.0
 # AI Wrapper Interface (Added by Togrul-cmd)
 gradio>=4.0.0
 
-# Optional: For CUDA support, install appropriate PyTorch version
-# Visit: https://pytorch.org/get-started/locally/
+# Testing
+pytest>=8.0.0

@@ -18,15 +18,6 @@ The pipeline consists of an end-to-end data processing and model training archit
 3.  **2D CNN Architecture:** A PyTorch-based neural network utilizing Conv2d layers to extract spatial features, standardizing feature height across variable trace lengths via AdaptiveAvgPool2d, and outputting continuous scalar time values.
 4.  **Cross-Asset Validation:** The model is trained on the Brunswick, Halfmile, and Lalor assets, and structurally validated against the unseen Sudbury dataset to test pure generalization.
 
-## Project Structure
-*   `00_unzip.py`: Extracts compressed `.xz` HDF5 data.
-*   `01_process_hdf5.py`: Parses HDF5 matrices and cleans valid trace windows into `.npy` tensors.
-*   `dataset.py`: Custom PyTorch `Dataset` class for matrix transposition and standardization.
-*   `model.py`: Core 2D CNN PyTorch architecture.
-*   `04_train.py`: Training loop leveraging CUDA-accelerated hardware with dynamic MAE loss tracking.
-*   `05_visualize.py`: Evaluates the model on test data and plots AI predictions directly against manual ground-truth labels using Matplotlib.
-
-
 ## Download links
 
 The HDF5 files are hosted on AWS, and can be downloaded directly:
@@ -35,75 +26,71 @@ The HDF5 files are hosted on AWS, and can be downloaded directly:
  - [Lalor](https://d3sakqnghgsk6x.cloudfront.net/Lalor_3D/Lalor_raw_z_1500ms_norp_geom_v3.hdf5.xz)
  - [Sudbury](https://d3sakqnghgsk6x.cloudfront.net/Sudbury_3D/preprocessed_Sudbury3D.hdf.xz)
 
-
 ## How to Run
 
-### Option 1: Interactive AI Wrapper Demo (Recommended)
-**Added by: Togrul-cmd**
+### Option 1: Docker Container (Recommended for Web Demo)
+Run the Gradio interface in a clean, memory-optimized Docker container without altering your host environment.
 
-Launch the Gradio web interface for interactive model demonstration:
+1. **Build the image:**
+   ```bash
+   docker build -t holberton_project .
+   ```
+2. **Run the container:**
+   ```bash
+   docker run -p 7860:7860 --name holberton_project -d holberton_project
+   ```
+3. **Access the interface:**
+   Open your browser to `http://localhost:7860`
 
-1. **Install dependencies:**
+### Option 2: Local Python Demo
+Launch the Gradio web interface directly on your host machine:
+1. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
-
-2. **Run the demo app:**
+2. Run the demo app:
    ```bash
-   python demo_app.py
+   python demo_app_2.py
    ```
 
-3. **Access the interface:**
-   - Open your browser to `http://127.0.0.1:7860`
-   - Upload your seismic traces (`.npy` file) and ground truth labels (`.npy` file)
-   - Click "Run Inference" to see AI predictions overlaid on the seismic data
-   - View performance metrics (MAE, RMSE, max error)
-
-**Features:**
-- 🎯 Real-time inference with trained model
-- 📊 Visual comparison of AI predictions vs manual labels
-- 📈 Automatic error metrics calculation
-- ⚙️ Optional bias correction toggle
-- 🖥️ Clean, professional web interface
-
-### Option 2: Training Pipeline (Original)
-**Developed by: Isa Maharramov**
-
+### Option 3: Training Pipeline (Original)
 1. Ensure raw datasets are placed in the `/data/` directory.
-2. Run data processing: `python 01_process_hdf5.py`
-3. Train the network: `python 04_train.py`
-4. Visualize results: `python 05_visualize.py`
+
+2. Extract archives: `python 00_unzip.py`
+
+3. Process gathers: `python 01_process_hdf5.py`
+
+4. Train the network: `python 04_train.py`
+
+5. Visualize results: `python 05_visualize.py`
+
+### Option 4: Running Unit Tests
+Execute the automated test suite to verify tensor shapes, dataset standardization, and extraction logic:
+```bash
+python -m pytest -v
+```
 
 ## Project Structure
-```
+```plaintext
 .
-├── demo_app.py                          # Gradio AI wrapper (Togrul-cmd)
-├── requirements.txt                     # Python dependencies
-├── model.py                             # Neural network architecture
-├── dataset.py                           # PyTorch dataset class
 ├── 00_unzip.py                          # Data extraction
 ├── 01_process_hdf5.py                   # HDF5 preprocessing
 ├── 04_train.py                          # Training pipeline
 ├── 05_visualize.py                      # Visualization script
-├── first_break_picker_finetuned.pth     # Trained model weights
+├── dataset.py                           # PyTorch dataset class
+├── demo_app_2.py                        # Gradio AI wrapper (Togrul-cmd)
+├── Dockerfile                           # Docker configuration
+├── model.py                             # Neural network architecture
+├── requirements.txt                     # Python dependencies
+├── baseline_model.pth                   # Initial trained weights
+├── first_break_picker_finetuned.pth     # Fine-tuned model weights
+├── sample_data/                         # Sample 2D gathers and manual labels
+├── tests/                               # Pytest automated testing suite
 └── README.md                            # This file
 ```
 
-## AI Wrapper Technical Details
+## Authors:
 
-The Gradio interface (`demo_app.py`) provides:
-- **Model Loading:** Automatically loads the fine-tuned PyTorch model on startup
-- **Data Processing:** Handles transpose, normalization, and tensor conversion
-- **Inference:** GPU-accelerated prediction with automatic device detection
-- **Visualization:** Matplotlib-based overlay of predictions on seismic images
-- **Metrics:** MAE, RMSE, and max error computation
-- **User Experience:** Clean UI with instructions and model information
+*Core Model & Training Pipeline: Isa Maharramov*
 
-**Input Requirements:**
-- Seismic traces: NumPy array of shape `(num_traces, time_samples)`
-- Labels: NumPy array of shape `(num_traces,)` with first break times
-
----
-*Authors:*  
-*Core Model & Training Pipeline: Isa Maharramov*  
 *AI Wrapper & Demo Interface: Togrul-cmd*

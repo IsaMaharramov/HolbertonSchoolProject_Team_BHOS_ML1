@@ -19,3 +19,6 @@ processed_data/
 .vscode/
 .DS_Store
 Thumbs.db
+
+# Test Caches
+.pytest_cache/

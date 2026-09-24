@@ -1,0 +1,17 @@
+# Python & Environment
+__pycache__/
+.venv/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Massive Datasets
+data/
+processed_data/
+*.hdf5
+*.xz
+# Note: sample_data/ is NOT ignored so users can test the demo
+
+# OS & IDE
+.vscode/
+.DS_Store
