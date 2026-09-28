@@ -70,23 +70,47 @@ Execute the automated test suite to verify tensor shapes, dataset standardizatio
 python -m pytest -v
 ```
 
+### Option 5: Multi-Gather Quantitative Benchmark
+Generate a cross-gather error report with tolerance acceptance thresholds:
+```bash
+python 06_benchmark.py
+```
+
 ## Project Structure
 ```plaintext
 .
-├── 00_unzip.py                          # Data extraction
-├── 01_process_hdf5.py                   # HDF5 preprocessing
-├── 04_train.py                          # Training pipeline
-├── 05_visualize.py                      # Visualization script
-├── dataset.py                           # PyTorch dataset class
-├── demo_app_2.py                        # Gradio AI wrapper (Togrul-cmd)
-├── Dockerfile                           # Docker configuration
-├── model.py                             # Neural network architecture
-├── requirements.txt                     # Python dependencies
-├── baseline_model.pth                   # Initial trained weights
-├── first_break_picker_finetuned.pth     # Fine-tuned model weights
-├── sample_data/                         # Sample 2D gathers and manual labels
-├── tests/                               # Pytest automated testing suite
-└── README.md                            # This file
+├── .github/
+│   └── workflows/
+│       └── ci.yml                         # Automated GitHub Actions CI test runner
+├── sample_data/                           # Sample 2D gathers & ground-truth labels (image_0 to 6)
+├── tests/                                 # Pytest automated test suite
+│   ├── __init__.py                        # Test package identifier
+│   ├── test_dataset.py                    # Tensor shape transposition & standardization tests
+│   ├── test_model.py                      # CNN forward pass shape & autograd flow tests
+│   ├── test_postprocess.py                # Cycle-skip filter & spatial continuity tests
+│   └── test_unzip.py                      # Archive decompression unit test
+├── .dockerignore                          # Container exclusion rules for raw data & environments
+├── .gitignore                             # Git exclusion rules for heavy archives, caches & data
+├── 00_unzip.py                            # Automated .xz archive decompression script
+├── 01_process_hdf5.py                     # HDF5 gather grouping by receiver coordinates
+├── 04_train.py                            # Fine-tuning loop using AdamW and MAE loss
+├── 05_visualize.py                        # Single-gather inference and visual comparison script
+├── 06_benchmark.py                        # Multi-gather evaluation & tolerance report (±5/10/15 ms)
+├── baseline_model.pth                     # Initial trained baseline weights
+├── dataset.py                             # PyTorch Dataset loader with zero-mean standardization
+├── demo_app_2.py                          # Interactive Gradio web interface (bias-corrected inference)
+├── Dockerfile                             # Production container configuration
+├── export_picks.py                        # Industry-standard ASCII pick table exporter
+├── FINAL_STEPS.md                         # Milestone delivery and setup checklist
+├── first_break_picker_finetuned.pth       # Fine-tuned checkpoint weights
+├── first_break_picker.pth                 # Intermediate checkpoint weights
+├── launch_demo.bat                        # Windows one-click batch launcher for demo app
+├── model.py                               # 2D CNN architecture (SeismicFirstBreakNet)
+├── postprocess.py                         # Geophysical wavefront continuity & outlier filter
+├── presentation_figure.png                # High-resolution visual comparison figure
+├── README.md                              # Main project documentation and run guides
+├── requirements.txt                       # Project dependencies
+└── test_demo.py                           # Quick dependency & model loading verification
 ```
 
 ## Authors:
