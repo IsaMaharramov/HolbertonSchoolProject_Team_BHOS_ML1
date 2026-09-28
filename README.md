@@ -85,6 +85,7 @@ python 06_benchmark.py
 ├── sample_data/                           # Sample 2D gathers & ground-truth labels (image_0 to 6)
 ├── tests/                                 # Pytest automated test suite
 │   ├── __init__.py                        # Test package identifier
+│   ├── test_cli.py                        # Automated CLI interface & export tests
 │   ├── test_dataset.py                    # Tensor shape transposition & standardization tests
 │   ├── test_model.py                      # CNN forward pass shape & autograd flow tests
 │   ├── test_postprocess.py                # Cycle-skip filter & spatial continuity tests
@@ -96,6 +97,7 @@ python 06_benchmark.py
 ├── 04_train.py                            # Fine-tuning loop using AdamW and MAE loss
 ├── 05_visualize.py                        # Single-gather inference and visual comparison script
 ├── 06_benchmark.py                        # Multi-gather evaluation & tolerance report (±5/10/15 ms)
+├── 07_qc_report.py                        # Multi-panel QC diagnostic generator (R², residuals, error)
 ├── baseline_model.pth                     # Initial trained baseline weights
 ├── dataset.py                             # PyTorch Dataset loader with zero-mean standardization
 ├── demo_app_2.py                          # Interactive Gradio web interface (bias-corrected inference)
@@ -106,6 +108,8 @@ python 06_benchmark.py
 ├── first_break_picker.pth                 # Intermediate checkpoint weights
 ├── launch_demo.bat                        # Windows one-click batch launcher for demo app
 ├── model.py                               # 2D CNN architecture (SeismicFirstBreakNet)
+├── model_profiler.py                      # Latency, parameter complexity, and throughput benchmark
+├── picker_cli.py                          # Headless production CLI for automated batch picking
 ├── postprocess.py                         # Geophysical wavefront continuity & outlier filter
 ├── presentation_figure.png                # High-resolution visual comparison figure
 ├── README.md                              # Main project documentation and run guides
