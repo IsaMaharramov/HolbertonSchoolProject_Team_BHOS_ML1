@@ -102,25 +102,30 @@ def process_seismic_data(traces_file, labels_file=None, apply_bias_correction=Fa
             pred = raw_pred + bias_offset
 
         # ---- Metrics ----
+        # ---- Metrics ----
         metrics_md = "_No labels uploaded, so no error metrics were computed._"
         if labels_np is not None:
             raw_err = raw_pred - labels_np
+            raw_mape = np.mean(np.abs(raw_err) / np.maximum(labels_np, 1e-6)) * 100.0
             metrics_md = (
                 "**Raw model error (no correction):**\n"
-                f"- MAE: {np.mean(np.abs(raw_err)):.3f}\n"
-                f"- RMSE: {np.sqrt(np.mean(raw_err ** 2)):.3f}\n"
-                f"- Max error: {np.max(np.abs(raw_err)):.3f}\n"
-                f"- Mean signed error (bias): {np.mean(raw_err):.3f}\n"
+                f"- MAE: {np.mean(np.abs(raw_err)):.3f} ms\n"
+                f"- RMSE: {np.sqrt(np.mean(raw_err ** 2)):.3f} ms\n"
+                f"- MAPE: {raw_mape:.2f}%\n"
+                f"- Max error: {np.max(np.abs(raw_err)):.3f} ms\n"
+                f"- Mean signed error (bias): {np.mean(raw_err):.3f} ms\n"
             )
             if bias_offset is not None:
                 cor_err = pred - labels_np
+                cor_mape = np.mean(np.abs(cor_err) / np.maximum(labels_np, 1e-6)) * 100.0
                 metrics_md += (
                     "\n**After bias correction** (⚠️ uses ground truth, so this is optimistic):\n"
-                    f"- Offset applied: {bias_offset:.3f}\n"
-                    f"- MAE: {np.mean(np.abs(cor_err)):.3f}\n"
-                    f"- RMSE: {np.sqrt(np.mean(cor_err ** 2)):.3f}\n"
+                    f"- Offset applied: {bias_offset:.3f} ms\n"
+                    f"- MAE: {np.mean(np.abs(cor_err)):.3f} ms\n"
+                    f"- RMSE: {np.sqrt(np.mean(cor_err ** 2)):.3f} ms\n"
+                    f"- MAPE: {cor_mape:.2f}%\n"
                 )
-            metrics_md += "\n_Units are the same as the label units in your dataset._"
+            metrics_md += "\n_Units are in milliseconds (ms) / percentage (%)._"
 
         # ---- Plot ----
         fig, ax = plt.subplots(figsize=(14, 8))

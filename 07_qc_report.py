@@ -39,6 +39,7 @@ def generate_qc_report(trace_path="sample_data/image_0_traces.npy",
     residuals = raw_preds - labels
     mae = np.mean(np.abs(residuals))
     rmse = np.sqrt(np.mean(residuals ** 2))
+    mape = np.mean(np.abs(residuals) / np.maximum(labels, 1e-6)) * 100.0
     
     # Compute R² score
     ss_res = np.sum((labels - raw_preds) ** 2)
@@ -52,7 +53,7 @@ def generate_qc_report(trace_path="sample_data/image_0_traces.npy",
     ax1.imshow(traces_t, aspect="auto", cmap="gray", interpolation="bilinear")
     x = np.arange(len(labels))
     ax1.plot(x, labels, color="cyan", linestyle="--", linewidth=1.5, label="Ground Truth")
-    ax1.plot(x, raw_preds, color="red", alpha=0.8, linewidth=1.5, label=f"Raw AI (MAE={mae:.2f}ms)")
+    ax1.plot(x, raw_preds, color="red", alpha=0.8, linewidth=1.5, label=f"Raw AI (MAE={mae:.2f}ms, MAPE={mape:.1f}%)")
     ax1.plot(x, filtered_preds, color="lime", alpha=0.9, linewidth=1.8, label="Geophysically Filtered")
     ax1.set_title("Seismic Gather & Arrival Comparison", fontweight="bold")
     ax1.set_xlabel("Trace Index")
