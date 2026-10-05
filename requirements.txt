@@ -12,8 +12,12 @@ h5py>=3.8.0
 matplotlib>=3.7.0
 Pillow>=10.0.0
 
-# AI Wrapper Interface (Added by Togrul-cmd)
-gradio>=4.0.0
+# Compatibility fixes for Gradio 4.x
+huggingface_hub<1.0.0
+pydantic<2.9.0
+
+# AI Wrapper Interface
+gradio==4.42.0
 
 # Testing
 pytest>=8.0.0
