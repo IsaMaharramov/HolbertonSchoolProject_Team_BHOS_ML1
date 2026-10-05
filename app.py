@@ -19,12 +19,22 @@ import torch
 import gradio as gr
 from PIL import Image
 
+try:
+    import spaces
+except ImportError:
+    class _MockSpaces:
+        @staticmethod
+        def GPU(func=None, **kwargs):
+            if func is not None:
+                return func
+            return lambda f: f
+    spaces = _MockSpaces()
+
 from model import SeismicFirstBreakNet
 from postprocess import regularize_picks
 
 
 model = None
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 loaded_model_path = None
 
 
@@ -45,12 +55,12 @@ def load_model():
         return False
 
     try:
-        net = SeismicFirstBreakNet().to(device)
-        net.load_state_dict(torch.load(model_path, map_location=device, weights_only=True))
+        net = SeismicFirstBreakNet().to("cpu")
+        net.load_state_dict(torch.load(model_path, map_location="cpu", weights_only=True))
         net.eval()
         model = net
         loaded_model_path = model_path
-        print(f"Model loaded successfully from '{model_path}' on {device}")
+        print(f"Model loaded successfully on CPU from '{model_path}'")
         return True
     except Exception as e:
         print(f"[ERROR] Failed loading weights from {model_path}: {e}")
@@ -61,6 +71,7 @@ def _path(file):
     return getattr(file, "name", file)
 
 
+@spaces.GPU
 def process_seismic_data(
     traces_file,
     labels_file=None,
@@ -178,13 +189,16 @@ def process_seismic_data(
         else:
             image_norm = image
 
+        infer_device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        model.to(infer_device)
+
         tensor = (
             torch.from_numpy(
                 np.ascontiguousarray(image_norm)
             )
             .unsqueeze(0)
             .unsqueeze(0)
-            .to(device)
+            .to(infer_device)
         )
 
         # ---------------------------------------------------------
