@@ -5,7 +5,7 @@ echo  Gradio AI Wrapper
 echo ========================================
 echo.
 
-cd /d "c:\Users\Admin\Desktop\holb_final\HolbertonSchoolProject_Team_BHOS_ML1"
+cd /d "%~dp0"
 
 echo Checking dependencies...
 python -c "import gradio, torch, numpy, matplotlib" 2>nul

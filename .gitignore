@@ -10,6 +10,7 @@ processed_data/
 *.hdf5
 *.xz
 *.npy
+!sample_data/*.npy
 
 # Model Weights (Heavy and overwrite frequently)
 #*.pth

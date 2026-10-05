@@ -26,9 +26,9 @@ def regularize_picks(picks, max_velocity_jump=15.0, median_window=5):
         np.median(padded[i:i + median_window]) for i in range(len(cleaned))
     ])
     
-    # 2. Identify and substitute unphysical gradient jumps
-    diffs = np.abs(np.diff(cleaned, prepend=cleaned[0]))
-    spike_mask = diffs > max_velocity_jump
+    # 2. Identify and substitute unphysical jumps against the median wavefront
+    residual_from_median = np.abs(cleaned - median_curve)
+    spike_mask = residual_from_median > max_velocity_jump
     cleaned[spike_mask] = median_curve[spike_mask]
     
     return cleaned

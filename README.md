@@ -1,3 +1,13 @@
+title: Automated Seismic First Break Detection
+emoji: 🌊
+colorFrom: blue
+colorTo: indigo
+sdk: gradio
+sdk_version: 4.44.0
+app_file: app.py
+pinned: false
+license: mit
+
 # Automated Seismic First Break Detection
 
 A 2D Convolutional Neural Network (CNN) pipeline built in PyTorch to automatically detect seismic first breaks across complex geological assets. 

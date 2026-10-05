@@ -46,7 +46,7 @@ class SeismicFirstBreakNet(nn.Module):
     def forward(self, x):
         features = self.encoder(x)
         output = self.head(features)
-        return output.squeeze(1) # Shape: (Batch, Traces)
+        return output.view(x.size(0), -1) # Explicitly guarantees (Batch, Traces)
 
 if __name__ == "__main__":
     # Test tensor with dummy shape (Batch=2, Channel=1, Time=1500, Traces=120)
