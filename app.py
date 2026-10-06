@@ -35,6 +35,7 @@ from postprocess import regularize_picks
 
 
 model = None
+device = torch.device("cpu")
 loaded_model_path = None
 
 
@@ -189,8 +190,8 @@ def process_seismic_data(
         else:
             image_norm = image
 
-        infer_device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        model.to(infer_device)
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        model.to(device)
 
         tensor = (
             torch.from_numpy(
@@ -198,7 +199,7 @@ def process_seismic_data(
             )
             .unsqueeze(0)
             .unsqueeze(0)
-            .to(infer_device)
+            .to(device)
         )
 
         # ---------------------------------------------------------

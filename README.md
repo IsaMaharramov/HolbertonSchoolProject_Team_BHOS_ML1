@@ -12,12 +12,6 @@ license: mit
 
 # Automated Seismic First Break Detection
 
-[![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Live%20Demo-yellow)](https://huggingface.co/spaces/Isa11111/holberton-project)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c.svg)](https://pytorch.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-
-> 🚀 **Live Interactive Demo:** Test preprocessed gathers directly in the browser on [Hugging Face Spaces](https://huggingface.co/spaces/Isa11111/holberton-project).
-
 A 2D Convolutional Neural Network (CNN) pipeline built in PyTorch to automatically detect seismic first breaks across complex geological assets. 
 
 ## Project Overview
@@ -45,10 +39,6 @@ The HDF5 files are hosted on AWS, and can be downloaded directly:
  - [Sudbury](https://d3sakqnghgsk6x.cloudfront.net/Sudbury_3D/preprocessed_Sudbury3D.hdf.xz)
 
 ## How to Run
-
-### Option 0: Live Interactive Web App (Zero Setup)
-Launch and test the model immediately on cloud GPU infrastructure:
-👉 [Open Hugging Face Space](https://huggingface.co/spaces/Isa11111/holberton-project)
 
 ### Option 1: Docker Container (Recommended for Web Demo)
 Run the Gradio interface in a clean, memory-optimized Docker container without altering your host environment.
